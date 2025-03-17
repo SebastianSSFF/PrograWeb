@@ -1,0 +1,107 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    color: #2c3e50;
+    padding: 30px;
+    margin: 0;
+}
+
+/* Estilo para el título del carrito */
+h2 {
+    color: #3498db;
+    font-size: 2.2em;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Contenedor del carrito */
+div {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Estilo para la lista de productos */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.3s ease;
+}
+
+li:hover {
+    background-color: #f9f9f9;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+/* Estilo para los botones */
+button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.95em;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #a5281b;
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Estilo para el mensaje cuando el carrito está vacío */
+p {
+    color: #888;
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+/* Estilo para el botón de "Recibo" */
+button[type="button"]:last-of-type {
+    background-color: #3498db;
+    color: white;
+    font-size: 1.1em;
+    padding: 12px 20px;
+    border-radius: 10px;
+    margin-top: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 100%;
+}
+
+button[type="button"]:last-of-type:hover {
+    background-color: #2980b9;
+    transform: scale(1.02);
+}
+
+button[type="button"]:last-of-type:active {
+    background-color: #1c6ea4;
+}
