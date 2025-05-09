@@ -1,16 +1,24 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Producto } from '../models/producto';
+
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ProductoService {
+  
+  private apiURL = 'http://localhost:3000/api/productos';
+  constructor(private http: HttpClient) {}
 
   private productos : Producto[] = [
-    new Producto(1, 'Jeans', 200, 2, 'assets/jeans.jpg'),
-    new Producto(2, 'Mesa', 1200, 2, 'assets/mesa.jpg'),
-    new Producto(3, 'PS2 Slim hackeada', 2300, 2, 'assets/pleidos.jpg')
+    new Producto(1, 'Jeans', 200, 9, 'assets/jeans.jpg'),
+    new Producto(2, 'Mesa', 800, 1, 'assets/mesa.jpg'),
+    new Producto(3, 'PS2 Slim Hackeada + Juego', 2600, 1, 'assets/pleidos.jpg'),
+    new Producto(4, 'Television usada con detalles', 1200, 1, 'assest/tele.jpg'),
+    new Producto(5, 'Camiseta de cuero usada', 1000, 1, 'assets/cuero.jpg'),
   ];
   
   private productosSubject = new BehaviorSubject<Producto[]>(this.productos);
@@ -36,9 +44,8 @@ export class ProductoService {
     }
   }
 
-
-  obtenerProductos(): Producto[]{
-    return this.productos;
+   obtenerProductos(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(this.apiURL);
   }
 
   agregarProducto(producto: Producto): void {

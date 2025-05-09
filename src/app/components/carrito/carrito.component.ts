@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarritoService } from '../../services/carrito.service';
+import { Router } from '@angular/router'; // Importar Router
+
 
 @Component({
   selector: 'app-carrito',
@@ -12,8 +14,12 @@ import { CarritoService } from '../../services/carrito.service';
 
 export class CarritoComponent {
   carrito: any[] = [];
-  constructor(private carritoService : CarritoService){}
-    ngOnInit(){
+  constructor(private carritoService : CarritoService, private router : Router){
+    
+  }
+
+    ngOnInit()
+    {
       this.carrito=this.carritoService.obtenerCarrito();
     }
 
@@ -31,5 +37,9 @@ export class CarritoComponent {
       document.body.appendChild(a);
       URL.revokeObjectURL(url);
     }
-  
+
+    irAlCatalogo()
+    {
+      this.router.navigate(['/']); // Navegar a la ruta principal (catálogo)
+    }
 }

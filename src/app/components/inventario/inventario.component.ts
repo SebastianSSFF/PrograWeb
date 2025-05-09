@@ -56,7 +56,15 @@ export class InventarioComponent {
 
   actualizarLista(): void {
     this.productos = this.inventarioService.consultarInventario();
-    this.productos = this.productoService.obtenerProductos();
+    this.productoService.obtenerProductos().subscribe({
+      next: (productos) => {
+        this.productos = productos;
+      },
+      error: (err) => {
+        console.error('Error al obtener productos:', err);
+      }
+    });
+    //this.productos = this.productoService.obtenerProductos();
   }
 
   generarYGuardarXML(): void {
