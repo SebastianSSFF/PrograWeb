@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of } from 'rxjs';
 import { Producto } from '../models/producto';
 
 
@@ -8,56 +8,50 @@ import { Producto } from '../models/producto';
   providedIn: 'root'
 })
 
+
 export class ProductoService {
   
-  private apiURL = 'http://localhost:3000/api/productos';
+  private apiURL = 'http://localhost:3000/api';
   constructor(private http: HttpClient) {}
 
   private productos : Producto[] = [
-    new Producto(1, 'Jeans', 200, 9, 'assets/jeans.jpg'),
-    new Producto(2, 'Mesa', 800, 1, 'assets/mesa.jpg'),
-    new Producto(3, 'PS2 Slim Hackeada + Juego', 2600, 1, 'assets/pleidos.jpg'),
-    new Producto(4, 'Television usada con detalles', 1200, 1, 'assest/tele.jpg'),
-    new Producto(5, 'Camiseta de cuero usada', 1000, 1, 'assets/cuero.jpg'),
+    new Producto(1, 'Lunalight Liger Dancer', 50, "DUAD-EN030", 2, 'assets/Liger.jpg'),
+    new Producto(2, 'Lunalight Perfume Dancer', 50, "DUAD-AE031", 2, 'assets/Perfume.jpg'),
+    new Producto(3, 'Fire Formation - Tenki', 20, "ES01-AE062", 1, 'assets/Tenki.jpg'),
+    new Producto(4, 'El Bufón y el Pájaro del Candado', 30, "RA02-SP006", 3, 'assets/Droll.jpg'),
+    new Producto(5, 'Zorro Carmesí de la Lunaluz', 5000, "CR08-AE033", 2, 'assets/Zorro.jpg'),
+    new Producto(6, 'Lunalight Silver Hound', 10000, "DUAD-AE006", 2, 'assets/MiViejaW.jpg'),
   ];
   
   private productosSubject = new BehaviorSubject<Producto[]>(this.productos);
   productos$ = this.productosSubject.asObservable(); // Observable para suscribirse
 
 
-  cargarCatalogoDesdeXML(xmlContent: string): void {
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlContent, 'application/xml');
-    const productosXML = xmlDoc.getElementsByTagName('producto');
-
-    this.productos = [];
-    for (let i = 0; i < productosXML.length; i++) {
-      const productoXML = productosXML[i];
-      const producto: Producto = {
-        id: +productoXML.getElementsByTagName('id')[0].textContent!,
-        nombre: productoXML.getElementsByTagName('nombre')[0].textContent!,
-        cantidad: +productoXML.getElementsByTagName('cantidad')[0].textContent!,
-        precio: +productoXML.getElementsByTagName('precio')[0].textContent!,
-        imagen: productoXML.getElementsByTagName('imagen')[0].textContent!,
-      };
-      this.productos.push(producto);
-    }
-  }
+  
 
    obtenerProductos(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.apiURL);
+    return this.http.get<Producto[]>(this.apiURL).pipe(
+      catchError(err => {
+        console.warn('Error al conectar con API, usando datos locales', err);
+        return of(this.productos); // Fallback a datos locales
+      })
+    );
   }
+
+    /*obtenerProductos(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.apiURL}/productos`);
+  }*/
 
   agregarProducto(producto: Producto): void {
     this.productos.push(producto);
-    this.productosSubject.next([...this.productos]); // Notificar el cambio
+    this.productosSubject.next([...this.productos]); 
   }
 
   modificarProducto(id: number, nuevoProducto: Producto): void {
     const index = this.productos.findIndex((p) => p.id === id);
     if (index !== -1) {
       this.productos[index] = { ...this.productos[index], ...nuevoProducto };
-      this.productosSubject.next([...this.productos]); // Notificar el cambio
+      this.productosSubject.next([...this.productos]);
     }
   }
 

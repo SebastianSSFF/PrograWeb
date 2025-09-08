@@ -14,7 +14,7 @@ import { ProductoService } from '../../services/producto.service'; // Usar Produ
   styleUrls: ['./inventario.component.css'],
 })
 export class InventarioComponent {
-  nuevoProducto: Producto = { id: 0, nombre: '', cantidad: 0, precio: 0, imagen: '' };
+  nuevoProducto: Producto = { id: 0, nombre: '', cantidad: 0, desc: "", precio: 0, imagen: '' };
   productos: Producto[] = [];
 
   constructor(private productoService: ProductoService, private inventarioService: InventarioService, private router: Router) {
@@ -25,7 +25,7 @@ export class InventarioComponent {
     this.inventarioService.crearProducto(this.nuevoProducto);
     this.productoService.agregarProducto(this.nuevoProducto);
     this.actualizarLista();
-    this.nuevoProducto = { id: 0, nombre: '', cantidad: 0, precio: 0, imagen: '' }; // Reiniciar el formulario
+    this.nuevoProducto = { id: 0, nombre: '', cantidad: 0, desc: "", precio: 0, imagen: '' }; // Reiniciar el formulario
   }
 
   modificarProducto(id: number): void {
@@ -33,13 +33,15 @@ export class InventarioComponent {
     if (producto) {
       const nuevoNombre = prompt('Ingrese el nuevo nombre:', producto.nombre);
       const nuevaCantidad = prompt('Ingrese la nueva cantidad:', producto.cantidad.toString());
+      const nuevoDesc = prompt('Ingrese el nuevo nombre:', producto.desc);
       const nuevoPrecio = prompt('Ingrese el nuevo precio:', producto.precio.toString());
 
-      if (nuevoNombre && nuevaCantidad && nuevoPrecio) {
+      if (nuevoNombre && nuevaCantidad && nuevoDesc && nuevoPrecio) {
         const productoModificado: Producto = {
           ...producto,
           nombre: nuevoNombre,
           cantidad: +nuevaCantidad,
+          desc: nuevoDesc,
           precio: +nuevoPrecio,
         };
         this.productoService.modificarProducto(id, productoModificado); // Llamar al método del servicio
@@ -67,7 +69,7 @@ export class InventarioComponent {
     //this.productos = this.productoService.obtenerProductos();
   }
 
-  generarYGuardarXML(): void {
+  /*generarYGuardarXML(): void {
     const xmlContent = this.productoService.generarXML();
     const blob = new Blob([xmlContent], { type: 'application/xml' });
     const link = document.createElement('a');
@@ -78,19 +80,8 @@ export class InventarioComponent {
     // Guardar el XML en localStorage
     localStorage.setItem('inventarioXML', xmlContent);
   }
-
-  cargarCatalogoDesdeXML(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const xmlContent = reader.result as string;
-        this.productoService.cargarCatalogoDesdeXML(xmlContent); // Llamar al método del servicio
-        this.actualizarLista(); // Actualizar la lista después de cargar el catálogo
-      };
-      reader.readAsText(file);
-    }
-  }
+*/
+ 
 
   generarXML(): void {
     let xmlContent = '<?xml version="1.0" encoding="UTF-8"?>\n';
