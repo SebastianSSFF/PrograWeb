@@ -18,19 +18,19 @@
   </producto>
   <producto>
     <id>3</id>
-    <nombre>Fire Formation - Tenki</nombre>
+    <nombre>Luna Light Perfume</nombre>
     <descripcion>ES01-AE062</descripcion>
     <cantidad>1</cantidad>
     <precio>20</precio>
-    <imagen>assets/Tenki.jpg</imagen>
+    <imagen>assets/LunaLight.jpg</imagen>
   </producto>
   <producto>
     <id>4</id>
-    <nombre>El Bufón y el Pájaro del Candado</nombre>
+    <nombre>Polymerization</nombre>
     <descripcion>RA02-SP006</descripcion>
     <cantidad>3</cantidad>
     <precio>30</precio>
-    <imagen>assets/Droll.jpg</imagen>
+    <imagen>assets/Poli.jpg</imagen>
   </producto>
   <producto>
     <id>5</id>

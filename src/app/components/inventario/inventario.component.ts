@@ -58,14 +58,13 @@ export class InventarioComponent {
 
   actualizarLista(): void {
     this.productos = this.inventarioService.consultarInventario();
-    this.productoService.obtenerProductos().subscribe({
-      next: (productos) => {
+    this.productoService.obtenerProductos()
+      .then((productos) => {
         this.productos = productos;
-      },
-      error: (err) => {
+      })
+      .catch((err) => {
         console.error('Error al obtener productos:', err);
-      }
-    });
+      });
     //this.productos = this.productoService.obtenerProductos();
   }
 
@@ -91,6 +90,7 @@ export class InventarioComponent {
       xmlContent += '  <producto>\n';
       xmlContent += `    <id>${producto.id}</id>\n`;
       xmlContent += `    <nombre>${producto.nombre}</nombre>\n`;
+      xmlContent += `    <descripcion>${producto.desc}</descripcion>\n`;
       xmlContent += `    <cantidad>${producto.cantidad}</cantidad>\n`;
       xmlContent += `    <precio>${producto.precio}</precio>\n`;
       xmlContent += `    <imagen>${producto.imagen}</imagen>\n`;

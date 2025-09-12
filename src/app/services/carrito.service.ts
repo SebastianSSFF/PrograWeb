@@ -34,7 +34,7 @@ export class CarritoService{
         this.carrito.forEach((producto) => {
             xmlContent += `<producto>\n      
             <id>ID: ${producto.id}</id>\n      
-            <descripcion>${producto.nombre}</descripcion>\n      
+            <descripcion>${producto.nombre && producto.desc}</descripcion>\n      
             <cantidad>Cantidad: 1</cantidad>\n      
             <precioUnitario>Precio unitario: ${producto.precio}</precioUnitario>\n
             <subtotal>Subtotal: ${producto.precio}</subtotal>\n    

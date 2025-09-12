@@ -25,15 +25,14 @@ export class ProductoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.productoService.obtenerProductos().subscribe({
-      next: (data: Producto[]) => {
+    this.productoService.obtenerProductos()
+      .then((data: Producto[]) => {
         this.productos = data;
-      },
-      error: (err) => {
+      })
+      .catch((err) => {
         console.error('Error al obtener productos', err);
         this.showAlert('Error al cargar los productos', 'error');
-      }
-    });
+      });
   }
 
   agregarAlCarrito(producto: Producto) {

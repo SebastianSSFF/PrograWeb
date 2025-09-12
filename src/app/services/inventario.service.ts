@@ -36,6 +36,7 @@ export class InventarioService {
       xmlContent += '  <producto>\n';
       xmlContent += `    <id>${producto.id}</id>\n`;
       xmlContent += `    <nombre>${producto.nombre}</nombre>\n`;
+      xmlContent += `    <descripcion>${producto.desc}</descripcion>\n`;
       xmlContent += `    <cantidad>${producto.cantidad}</cantidad>\n`;
       xmlContent += `    <precio>${producto.precio}</precio>\n`;
       xmlContent += `    <imagen>${producto.imagen}</imagen>\n`; // Incluir la imagen
