@@ -26,7 +26,7 @@ export class CarritoComponent {
       
     }
 
-     /*ngAfterViewInit(): void {
+     ngAfterViewInit(): void {
   const checkPaypal = () => {
     const paypal = (window as any).paypal;
     if (paypal) {
@@ -44,6 +44,7 @@ export class CarritoComponent {
   return actions.order.capture().then((details: any) => {
     alert(`Pago realizado por ${details.payer.name.given_name}`);
     
+    // Generar automáticamente el XML después del pago
     this.carritoService.generarXML();
   });
 }
@@ -55,18 +56,13 @@ export class CarritoComponent {
     ).render('#paypal-button-container');
     } else {
       console.log("Esperando a que cargue el SDK de PayPal...");
-      setTimeout(checkPaypal, 300); 
+      setTimeout(checkPaypal, 300); // Reintenta cada 300 ms
     }
   };
 
-  checkPaypal(); 
-}*/
+  checkPaypal(); // Inicia la verificación
+}
 
-checkPaypal = () => {
-  
-    this.carritoService.generarXML();
-
-  };
 
 
     eliminarProducto(index: number): void{
@@ -86,6 +82,6 @@ checkPaypal = () => {
     
     irAlCatalogo()
     {
-      this.router.navigate(['/']);
+      this.router.navigate(['/']); // Navegar a la ruta principal (catálogo)
     }
 }
