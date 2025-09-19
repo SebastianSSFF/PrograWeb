@@ -40,7 +40,7 @@ export class ProductoService {
   }*/
 
     async obtenerProductos(): Promise<Producto[]> {
-    const response = await fetch('assets/xml/inventario2.xml');
+    const response = await fetch('assets/xml/inventario.xml');
     const xmlText = await response.text();
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlText, 'application/xml');

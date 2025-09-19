@@ -8,7 +8,7 @@
     </ul>
     <h3>Subtotal: ${{ subtotal }}</h3>
     <!-- Agregar botones de pago (PayPal o Stripe) -->
-    <div id="paypal-button-container"></div>
+            <button type="button" (click)="checkPaypal()">Pagar y generar XML</button>
 </div>
 
 <p *ngIf="carrito.length === 0">Tu carrito está vacío.</p>

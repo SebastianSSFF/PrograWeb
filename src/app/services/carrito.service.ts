@@ -16,7 +16,6 @@ export class CarritoService{
     }
 
     generarXML(): void {
-        // Crear el contenido básico del XML
         let xmlContent = '<?xml version="1.0" encoding="UTF-8" ?>\n<factura>\n';
     
         // Información de la factura
@@ -42,19 +41,16 @@ export class CarritoService{
         });
         xmlContent += `</productos>\n`;
     
-        // Totales (sin IVA)
         const subtotal = this.calcularSubtotal();
-        const total = subtotal; // No se calcula el IVA, el total es solo el subtotal
+        const total = subtotal;
         xmlContent += `  <totales>\n    
         <subtotal>Subtotal sin IVA: ${subtotal}</subtotal>\n    
         <total>Total: ${total}</total>\n  </totales>\n`;
     
         xmlContent += '</factura>';
     
-        // Crear un Blob con el contenido XML
         const blob = new Blob([xmlContent], { type: 'application/xml' });
     
-        // Crear un enlace para la descarga
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = 'factura.xml';  
