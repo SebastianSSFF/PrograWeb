@@ -11,8 +11,9 @@ app.use(express.json());
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  port: "3307",
-  database: 'el_garage_db'
+  password: '',
+  port: 3306,
+  database: 'mexicartas_db'
 });
 
 // Conectar a MySQL
@@ -30,7 +31,7 @@ app.get('/api/productos', (req, res) => {
 });
 
 // Iniciar el servidor
-const PORT = 3000;
+const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
 });

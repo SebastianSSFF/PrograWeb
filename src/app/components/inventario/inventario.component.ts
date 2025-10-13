@@ -59,11 +59,13 @@ export class InventarioComponent {
   actualizarLista(): void {
     this.productos = this.inventarioService.consultarInventario();
     this.productoService.obtenerProductos()
-      .then((productos) => {
-        this.productos = productos;
-      })
-      .catch((err) => {
-        console.error('Error al obtener productos:', err);
+      .subscribe({
+        next: (productos) => {
+          this.productos = productos;
+        },
+        error: (err) => {
+          console.error('Error al obtener productos:', err);
+        }
       });
     //this.productos = this.productoService.obtenerProductos();
   }

@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarritoService } from '../../services/carrito.service';
-import { Router } from '@angular/router'; // Importar Router
+import { Router } from '@angular/router';
 import { loadStripe } from '@stripe/stripe-js';
 
 @Component({

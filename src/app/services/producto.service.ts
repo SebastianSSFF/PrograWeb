@@ -12,7 +12,7 @@ import { text } from 'stream/consumers';
 
 export class ProductoService {
   
-  private apiURL = 'http://localhost:3000/api';
+  private apiURL = 'http://localhost:4000/api/productos';
   constructor(private http: HttpClient) {}
 
   private productos : Producto[] = [
@@ -30,16 +30,16 @@ export class ProductoService {
 
   
 
-   /*obtenerProductos(): Observable<Producto[]> {
+   obtenerProductos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.apiURL).pipe(
       catchError(err => {
         console.warn('Error al conectar con API, usando datos locales', err);
         return of(this.productos); // Fallback a datos locales
       })
     );
-  }*/
+  }
 
-    async obtenerProductos(): Promise<Producto[]> {
+    /*async obtenerProductos(): Promise<Producto[]> {
     const response = await fetch('assets/xml/inventario.xml');
     const xmlText = await response.text();
     const parser = new DOMParser();
@@ -57,7 +57,7 @@ export class ProductoService {
       productos.push(new Producto(id, nombre, precio, desc, cantidad, imagen));
     }
     return productos;
-  }
+  }*/
 
   agregarProducto(producto: Producto): void {
     this.productos.push(producto);

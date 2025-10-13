@@ -16,7 +16,7 @@ export class ProductoComponent implements OnInit {
   productos: Producto[] = [];
   showMessage: boolean = false;
   message: string = '';
-  messageType: 'success' | 'error' = 'success';
+  messageType: 'success' | 'error' = 'success';  
 
   constructor(
     private productoService: ProductoService,
@@ -26,12 +26,14 @@ export class ProductoComponent implements OnInit {
 
   ngOnInit(): void {
     this.productoService.obtenerProductos()
-      .then((data: Producto[]) => {
-        this.productos = data;
-      })
-      .catch((err) => {
-        console.error('Error al obtener productos', err);
-        this.showAlert('Error al cargar los productos', 'error');
+      .subscribe({
+        next: (data: Producto[]) => {
+          this.productos = data;
+        },
+        error: (err: any) => {
+          console.error('Error al obtener productos', err);
+          this.showAlert('Error al cargar los productos', 'error');
+        }
       });
   }
 
