@@ -29,7 +29,9 @@ export class CarritoComponent {
      ngAfterViewInit(): void {
   const checkPaypal = () => {
     const paypal = (window as any).paypal;
-    if (paypal) {
+    const container = document.getElementById('paypal-button-container');
+
+    if (paypal && container) {
       paypal.Buttons({
         createOrder: (data: any, actions: any) => {
           return actions.order.create({
@@ -41,27 +43,24 @@ export class CarritoComponent {
           });
         },
         onApprove: (data: any, actions: any) => {
-  return actions.order.capture().then((details: any) => {
-    alert(`Pago realizado por ${details.payer.name.given_name}`);
-    
-    // Generar automáticamente el XML después del pago
-    this.carritoService.generarXML();
-  });
-}
-,
+          return actions.order.capture().then((details: any) => {
+            alert(`Pago realizado por ${details.payer.name.given_name}`);
+            this.carritoService.generarXML();
+          });
+        },
         onError: (err: any) => {
           console.error('Error en el pago:', err);
         }
-      }
-    ).render('#paypal-button-container');
+      }).render('#paypal-button-container');
     } else {
       console.log("Esperando a que cargue el SDK de PayPal...");
-      setTimeout(checkPaypal, 300); // Reintenta cada 300 ms
+      setTimeout(checkPaypal, 300);
     }
   };
 
-  checkPaypal(); // Inicia la verificación
+  checkPaypal();
 }
+
 
 
 

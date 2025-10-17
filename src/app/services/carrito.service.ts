@@ -64,8 +64,9 @@ export class CarritoService{
     
     // Método para calcular el subtotal
     calcularSubtotal(): number {
-        return this.carrito.reduce((total, producto) => total + producto.precio, 0);
-    }
+  return this.carrito.reduce((acc, item) => acc + Number(item.precio || 0), 0);
+}
+
     
     
 }
