@@ -39,26 +39,6 @@ export class ProductoService {
     );
   }
 
-    /*async obtenerProductos(): Promise<Producto[]> {
-    const response = await fetch('assets/xml/inventario.xml');
-    const xmlText = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
-    const productos: Producto[] = [];
-    const productoNodes = xmlDoc.getElementsByTagName('producto');
-    for (let i = 0; i < productoNodes.length; i++) {
-      const productoNode = productoNodes[i];
-      const id = parseInt(productoNode.getElementsByTagName('id')[0].textContent || '0', 10);
-      const nombre = productoNode.getElementsByTagName('nombre')[0].textContent || '';
-      const precio = parseFloat(productoNode.getElementsByTagName('precio')[0].textContent || '0');
-      const desc = productoNode.getElementsByTagName('descripcion')[0].textContent || '';
-      const cantidad = parseInt(productoNode.getElementsByTagName('cantidad')[0].textContent || '0', 10);
-      const imagen = productoNode.getElementsByTagName('imagen')[0].textContent || '';
-      productos.push(new Producto(id, nombre, precio, desc, cantidad, imagen));
-    }
-    return productos;
-  }*/
-
   agregarProducto(producto: Producto): void {
     this.productos.push(producto);
     this.productosSubject.next([...this.productos]); 

@@ -35,3 +35,21 @@ const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
 });
+
+
+app.post('/api/recibo', (req, res) => {
+  const { total, metodo_pago, estado } = req.body;
+
+  if (!total) {
+    return res.status(400).json({ mensaje: 'Falta el total del recibo' });
+  }
+
+  const q = 'INSERT INTO recibo_compra (total, metodo_pago, estado) VALUES (?, ?, ?)';
+  db.query(q, [total, metodo_pago || 'PayPal', estado || 'Pagado'], (err, result) => {
+    if (err) {
+      console.error('Error al registrar el recibo:', err);
+      return res.status(500).json({ mensaje: 'Error al registrar el recibo' });
+    }
+    res.status(200).json({ mensaje: 'Recibo registrado correctamente', id: result.insertId });
+  });
+});

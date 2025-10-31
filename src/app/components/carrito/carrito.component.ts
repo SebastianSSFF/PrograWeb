@@ -2,85 +2,75 @@ import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarritoService } from '../../services/carrito.service';
 import { Router } from '@angular/router';
-import { loadStripe } from '@stripe/stripe-js';
 
 @Component({
   selector: 'app-carrito',
-  standalone:true,
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './carrito.component.html',
   styleUrl: './carrito.component.css'
 })
-
-export class CarritoComponent {
+export class CarritoComponent implements OnInit, AfterViewInit {
   carrito: any[] = [];
   subtotal: number = 0;
-  constructor(private carritoService : CarritoService, private router : Router){ }
+  iva: number = 0;
+  total: number = 0;
 
-    private stripe: any;
+  constructor(private carritoService: CarritoService, private router: Router) {}
 
-    ngOnInit()
-    {
-      this.carrito=this.carritoService.obtenerCarrito();
-      this.subtotal = this.carritoService.calcularSubtotal();
-      
-    }
+  ngOnInit() {
+    this.carrito = this.carritoService.obtenerCarrito();
+    this.calcularTotales();
+  }
 
-     ngAfterViewInit(): void {
-  const checkPaypal = () => {
-    const paypal = (window as any).paypal;
-    const container = document.getElementById('paypal-button-container');
+  ngAfterViewInit(): void {
+    this.renderizarPaypal();
+  }
 
-    if (paypal && container) {
-      paypal.Buttons({
-        createOrder: (data: any, actions: any) => {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: this.subtotal.toFixed(2)
-              }
-            }]
-          });
-        },
-        onApprove: (data: any, actions: any) => {
-          return actions.order.capture().then((details: any) => {
-            alert(`Pago realizado por ${details.payer.name.given_name}`);
-            this.carritoService.generarXML();
-          });
-        },
-        onError: (err: any) => {
-          console.error('Error en el pago:', err);
-        }
-      }).render('#paypal-button-container');
-    } else {
-      console.log("Esperando a que cargue el SDK de PayPal...");
-      setTimeout(checkPaypal, 300);
-    }
-  };
+  private calcularTotales(): void {
+    this.subtotal = this.carritoService.calcularSubtotal();
+    this.iva = this.subtotal * 0.16;
+    this.total = this.subtotal + this.iva;
+  }
 
-  checkPaypal();
-}
+  private renderizarPaypal(): void {
+    const checkPaypal = () => {
+      const paypal = (window as any).paypal;
+      if (paypal) {
+        paypal.Buttons({
+          createOrder: (data: any, actions: any) => {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: this.total.toFixed(2)
+                }
+              }]
+            });
+          },
+          onApprove: (data: any, actions: any) => {
+            return actions.order.capture().then((details: any) => {
+              alert(`Pago realizado por ${details.payer.name.given_name}`);
+              this.carritoService.generarXML(); // Generar XML con IVA y total
+            });
+          },
+          onError: (err: any) => {
+            console.error('Error en el pago:', err);
+          }
+        }).render('#paypal-button-container');
+      } else {
+        setTimeout(checkPaypal, 300);
+      }
+    };
 
+    checkPaypal();
+  }
 
+  eliminarProducto(index: number): void {
+    this.carrito.splice(index, 1);
+    this.calcularTotales();
+  }
 
-
-    eliminarProducto(index: number): void{
-      this.carrito.splice(index, 1);
-    }
-
-    generarXML(): void{
-      this.carritoService.generarXML();
-      const blob = new Blob([this.carritoService.xml], {type: 'text/xml'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download ='carrito.xml';
-      document.body.appendChild(a);
-      URL.revokeObjectURL(url);
-    }
-    
-    irAlCatalogo()
-    {
-      this.router.navigate(['/']); // Navegar a la ruta principal (catálogo)
-    }
+  irAlCatalogo() {
+    this.router.navigate(['/']);
+  }
 }
